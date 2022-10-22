@@ -13,6 +13,8 @@ class GildedRose
         updateBackstage(item)
       when "Sulfuras, Hand of Ragnaros"
         updateSulfuras(item)
+      when "Conjured item"
+        updateConjured(item)
       else
         updateNormal(item)
       end
@@ -55,6 +57,15 @@ class GildedRose
     adjustQuality(item, -1) if item.sell_in < 0 && item.quality > 0
   end
 
+  def updateConjured(item)
+    item.quality > 1 ? adjustQuality(item, -2) : adjustQuality(item, -1) 
+    adjustSellIn(item, -1)
+    if item.sell_in < 0 && item.quality > 1
+      adjustQuality(item, -2) 
+    elsif item.sell_in < 0 && item.quality == 1
+      adjustQuality(item, -1)
+    end
+  end
 end
 
 class Item
