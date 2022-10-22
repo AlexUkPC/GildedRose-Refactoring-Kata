@@ -3,52 +3,67 @@ class GildedRose
   def initialize(items)
     @items = items
   end
-
+  
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
+      case item.name
+      when "Aged Brie"
+        updateBrie(item)
+      when "Backstage passes to a TAFKAL80ETC concert"
+        updateBackstage(item)
+      when "Sulfuras, Hand of Ragnaros"
+        updateSulfuras(item)
+      when "Conjured item"
+        updateConjured(item)
       else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
+        updateNormal(item)
       end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
-      end
+    end
+  end
+
+  private
+
+  def adjustQuality(item, adjustment)
+    item.quality = item.quality + adjustment
+  end
+
+  def adjustSellIn(item, adjustment)
+    item.sell_in = item.sell_in + adjustment
+  end
+
+  def updateBrie(item)
+    adjustQuality(item, 1) if item.quality < 50
+    adjustSellIn(item, -1)
+    adjustQuality(item, 1) if item.sell_in < 0 && item.quality < 50
+  end
+
+  def updateBackstage(item)
+    if item.quality < 50
+      adjustQuality(item, 1)
+      adjustQuality(item, 1) if item.sell_in < 11 && item.quality < 50
+      adjustQuality(item, 1) if item.sell_in < 6 && item.quality < 50
+    end
+    adjustSellIn(item, -1)
+    adjustQuality(item, -item.quality) if item.sell_in < 0
+  end
+  
+  def updateSulfuras(item)
+    
+  end
+
+  def updateNormal(item)
+    adjustQuality(item, -1) if item.quality > 0
+    adjustSellIn(item, -1)
+    adjustQuality(item, -1) if item.sell_in < 0 && item.quality > 0
+  end
+
+  def updateConjured(item)
+    item.quality > 1 ? adjustQuality(item, -2) : adjustQuality(item, -1) 
+    adjustSellIn(item, -1)
+    if item.sell_in < 0 && item.quality > 1
+      adjustQuality(item, -2) 
+    elsif item.sell_in < 0 && item.quality == 1
+      adjustQuality(item, -1)
     end
   end
 end
