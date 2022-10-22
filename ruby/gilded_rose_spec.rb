@@ -14,7 +14,10 @@ describe GildedRose do
     Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=30),
     Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=40),
     Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=1, quality=49),
-    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=0, quality=10)
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=0, quality=10),
+    Item.new(name="Conjured item", sell_in=1, quality=10),
+    Item.new(name="Conjured item", sell_in=0, quality=20),
+    Item.new(name="Conjured item", sell_in=-1, quality=1)
   ]
   GildedRose.new(items).update_quality()
 
@@ -61,6 +64,16 @@ describe GildedRose do
     end
     it "Backstage passes quality drops to 0 if sell_in <= 0" do
       expect(items[12].quality).to eq 0
+    end
+    # Conjured item tests
+    it "Conjured items quality decrese by 2 if sell_in > 0" do
+      expect(items[13].quality).to eq 8
+    end
+    it "Conjured items quality decrese by 4 if sell_in <= 0" do
+      expect(items[14].quality).to eq 16
+    end
+    it "Conjured items quality decrese by 4 if sell_in <= 0 and the quality doesn't become negative" do
+      expect(items[15].quality).to eq 0
     end
   end
 
