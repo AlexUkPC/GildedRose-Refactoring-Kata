@@ -5,6 +5,9 @@ describe GildedRose do
     Item.new(name="Normal item", sell_in=1, quality=10),
     Item.new(name="Normal item", sell_in=0, quality=20),
     Item.new(name="Normal item", sell_in=-1, quality=1),
+    Item.new(name="Aged Brie", sell_in=2, quality=0),
+    Item.new(name="Aged Brie", sell_in=0, quality=10),
+    Item.new(name="Aged Brie", sell_in=-1, quality=49)
   ]
   GildedRose.new(items).update_quality()
 
@@ -19,7 +22,16 @@ describe GildedRose do
     it "Normal items quality decrese by 2 if sell_in <= 0 and the quality doesn't become negative" do
       expect(items[2].quality).to eq 0
     end
-
+    # Aged Brie tests
+    it "Aged Brie quality increases by 1 if sell_in > 0" do
+      expect(items[3].quality).to eq 1
+    end
+    it "Aged Brie quality increases by 2 if sell_in <= 0" do
+      expect(items[4].quality).to eq 12
+    end
+    it "Aged Brie quality increases by 2 if sell_in <= 0 and the quality increase above 50" do
+      expect(items[5].quality).to eq 50
+    end
   end
 
 end
