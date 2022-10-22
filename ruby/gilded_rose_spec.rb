@@ -9,7 +9,12 @@ describe GildedRose do
     Item.new(name="Aged Brie", sell_in=0, quality=10),
     Item.new(name="Aged Brie", sell_in=-1, quality=49),
     Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=1, quality=80),
-    Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=80)
+    Item.new(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=80),
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=30),
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=40),
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=1, quality=49),
+    Item.new(name="Backstage passes to a TAFKAL80ETC concert", sell_in=0, quality=10)
   ]
   GildedRose.new(items).update_quality()
 
@@ -40,6 +45,22 @@ describe GildedRose do
     end
     it "Sulfuras quantity doesn't change" do
       expect(items[7].sell_in).to eq -1
+    end
+    # Backstage passes tests
+    it "Backstage passes quality increases by 1 if sell_in > 10" do
+      expect(items[8].quality).to eq 21
+    end
+    it "Backstage passes quality increases by 2 if sell_in <= 10" do
+      expect(items[9].quality).to eq 32
+    end
+    it "Backstage passes quality increases by 3 if sell_in <= 5" do
+      expect(items[10].quality).to eq 43
+    end
+    it "Backstage passes quality increase but stay under 50" do
+      expect(items[11].quality).to eq 50
+    end
+    it "Backstage passes quality drops to 0 if sell_in <= 0" do
+      expect(items[12].quality).to eq 0
     end
   end
 
