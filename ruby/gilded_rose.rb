@@ -4,29 +4,33 @@ class GildedRose
     @items = items
   end
 
+  def adjustQuality(item, adjustment)
+    item.quality = item.quality + adjustment
+  end
+
   def updateBrie(item)
     if item.quality < 50
-      item.quality = item.quality + 1
+      adjustQuality(item, 1)
     end
     item.sell_in = item.sell_in - 1
     if item.sell_in < 0 && item.quality < 50
-      item.quality = item.quality + 1
+      adjustQuality(item, 1)
     end
   end
 
   def updateBackstage(item)
     if item.quality < 50
-      item.quality = item.quality + 1
+      adjustQuality(item, 1)
       if item.sell_in < 11 && item.quality < 50
-        item.quality = item.quality + 1
+        adjustQuality(item, 1)
       end
       if item.sell_in < 6 && item.quality < 50
-        item.quality = item.quality + 1
+        adjustQuality(item, 1)
       end
     end
     item.sell_in = item.sell_in - 1
     if item.sell_in < 0
-      item.quality = item.quality - item.quality
+      adjustQuality(item, -item.quality)
     end
   end
   
@@ -36,14 +40,14 @@ class GildedRose
 
   def updateNormal(item)
     if item.quality > 0
-      item.quality = item.quality - 1
+      adjustQuality(item, -1)
     end
     item.sell_in = item.sell_in - 1
     if item.sell_in < 0 && item.quality > 0
-      item.quality = item.quality - 1
+      adjustQuality(item, -1)
     end
   end
-
+  
   def update_quality()
     @items.each do |item|
       case item.name
