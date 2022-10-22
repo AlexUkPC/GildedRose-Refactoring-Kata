@@ -3,6 +3,23 @@ class GildedRose
   def initialize(items)
     @items = items
   end
+  
+  def update_quality()
+    @items.each do |item|
+      case item.name
+      when "Aged Brie"
+        updateBrie(item)
+      when "Backstage passes to a TAFKAL80ETC concert"
+        updateBackstage(item)
+      when "Sulfuras, Hand of Ragnaros"
+        updateSulfuras(item)
+      else
+        updateNormal(item)
+      end
+    end
+  end
+
+  private
 
   def adjustQuality(item, adjustment)
     item.quality = item.quality + adjustment
@@ -52,20 +69,6 @@ class GildedRose
     end
   end
   
-  def update_quality()
-    @items.each do |item|
-      case item.name
-      when "Aged Brie"
-        updateBrie(item)
-      when "Backstage passes to a TAFKAL80ETC concert"
-        updateBackstage(item)
-      when "Sulfuras, Hand of Ragnaros"
-        updateSulfuras(item)
-      else
-        updateNormal(item)
-      end
-    end
-  end
 end
 
 class Item
