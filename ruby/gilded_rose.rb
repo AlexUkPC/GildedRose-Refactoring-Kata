@@ -4,8 +4,35 @@ class GildedRose
     @items = items
   end
 
+  def updateBrie(item)
+
+  end
+
+  def updateBackstage(item)
+
+  end
+  
+  def updateSulfuras(item)
+    
+  end
+
+  def updateNormal(item)
+    
+  end
+
   def update_quality()
     @items.each do |item|
+      case item.name
+      when "Aged Brie"
+        updateBrie(item)
+      when "Backstage passes to a TAFKAL80ETC concert"
+        updateBackstage(item)
+      when "Sulfuras, Hand of Ragnaros"
+        updateSulfuras(item)
+      else
+        updateNormal(item)
+      end
+
       if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
           if item.name != "Sulfuras, Hand of Ragnaros"
