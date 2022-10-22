@@ -36,7 +36,7 @@ describe GildedRose do
     it "Aged Brie quality increases by 2 if sell_in <= 0" do
       expect(items[4].quality).to eq 12
     end
-    it "Aged Brie quality increases by 2 if sell_in <= 0 and the quality increase above 50" do
+    it "Aged Brie quality increases by 2 if sell_in <= 0 and the quality increase but stay under 50" do
       expect(items[5].quality).to eq 50
     end
     # Sulfuras tests
