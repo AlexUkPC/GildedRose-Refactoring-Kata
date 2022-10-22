@@ -30,29 +30,19 @@ class GildedRose
   end
 
   def updateBrie(item)
-    if item.quality < 50
-      adjustQuality(item, 1)
-    end
+    adjustQuality(item, 1) if item.quality < 50
     adjustSellIn(item, -1)
-    if item.sell_in < 0 && item.quality < 50
-      adjustQuality(item, 1)
-    end
+    adjustQuality(item, 1) if item.sell_in < 0 && item.quality < 50
   end
 
   def updateBackstage(item)
     if item.quality < 50
       adjustQuality(item, 1)
-      if item.sell_in < 11 && item.quality < 50
-        adjustQuality(item, 1)
-      end
-      if item.sell_in < 6 && item.quality < 50
-        adjustQuality(item, 1)
-      end
+      adjustQuality(item, 1) if item.sell_in < 11 && item.quality < 50
+      adjustQuality(item, 1) if item.sell_in < 6 && item.quality < 50
     end
-    item.sell_in = item.sell_in - 1
-    if item.sell_in < 0
-      adjustQuality(item, -item.quality)
-    end
+    adjustSellIn(item, -1)
+    adjustQuality(item, -item.quality) if item.sell_in < 0
   end
   
   def updateSulfuras(item)
@@ -60,15 +50,11 @@ class GildedRose
   end
 
   def updateNormal(item)
-    if item.quality > 0
-      adjustQuality(item, -1)
-    end
+    adjustQuality(item, -1) if item.quality > 0
     adjustSellIn(item, -1)
-    if item.sell_in < 0 && item.quality > 0
-      adjustQuality(item, -1)
-    end
+    adjustQuality(item, -1) if item.sell_in < 0 && item.quality > 0
   end
-  
+
 end
 
 class Item
