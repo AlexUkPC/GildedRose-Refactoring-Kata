@@ -8,11 +8,15 @@ class GildedRose
     item.quality = item.quality + adjustment
   end
 
+  def adjustSellIn(item, adjustment)
+    item.sell_in = item.sell_in + adjustment
+  end
+
   def updateBrie(item)
     if item.quality < 50
       adjustQuality(item, 1)
     end
-    item.sell_in = item.sell_in - 1
+    adjustSellIn(item, -1)
     if item.sell_in < 0 && item.quality < 50
       adjustQuality(item, 1)
     end
@@ -42,7 +46,7 @@ class GildedRose
     if item.quality > 0
       adjustQuality(item, -1)
     end
-    item.sell_in = item.sell_in - 1
+    adjustSellIn(item, -1)
     if item.sell_in < 0 && item.quality > 0
       adjustQuality(item, -1)
     end
